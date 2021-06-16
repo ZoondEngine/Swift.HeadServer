@@ -1,13 +1,31 @@
 using System;
 using System.IO;
+using Extensions.Object;
+using Swift.HeadServer.App.Logging;
 using Swift.HeadServer.Shared;
 
 namespace Swift.HeadServer.App
 {
-    public abstract class ApplicationContext 
-        : IAppService, ILoggable, IThrowable, ISharableAppFolders
+    public abstract class ApplicationService 
+        : ExObject, IAppService, ILoggable, IThrowable, ISharableAppFolders
     {
         private const string HeadServerFolder = "head-server";
+
+        /// <summary>
+        /// Logger object
+        /// </summary>
+        private readonly LogExObject _log;
+
+        /// <summary>
+        ///  Default constructor
+        /// </summary>
+        protected ApplicationService()
+            : base()
+        {
+            // Try to search already instanced log object,
+            // cuz why some one more for us ?
+            _log = FindObjectOfType<LogExObject>() ?? Instantiate<LogExObject>();
+        }
 
         /// <summary>
         /// Get name of service
@@ -87,9 +105,7 @@ namespace Swift.HeadServer.App
         /// <param name="message"></param>
         /// <exception cref="NotImplementedException"></exception>
         public void Error(string message)
-        {
-            throw new NotImplementedException();
-        }
+            => _log.Error(message);
 
         /// <summary>
         /// Drop error message
@@ -97,9 +113,7 @@ namespace Swift.HeadServer.App
         /// <param name="message"></param>
         /// <exception cref="NotImplementedException"></exception>
         public void Warning(string message)
-        {
-            throw new NotImplementedException();
-        }
+            => _log.Warning(message);
 
         /// <summary>
         /// Drop error message
@@ -107,9 +121,7 @@ namespace Swift.HeadServer.App
         /// <param name="message"></param>
         /// <exception cref="NotImplementedException"></exception>
         public void Debug(string message)
-        {
-            throw new NotImplementedException();
-        }
+            => _log.Debug(message);
 
         /// <summary>
         /// Drop success message
@@ -117,8 +129,6 @@ namespace Swift.HeadServer.App
         /// <param name="message"></param>
         /// <exception cref="NotImplementedException"></exception>
         public void Success(string message)
-        {
-            throw new NotImplementedException();
-        }
+            => _log.Success(message);
     }
 }

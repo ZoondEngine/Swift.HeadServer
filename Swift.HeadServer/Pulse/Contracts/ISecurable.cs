@@ -1,7 +1,7 @@
 namespace Swift.HeadServer.Pulse.Contracts
 {
-    public class ISecurable
+    public interface ISecurable
     {
-        
+        public string Signature();
     }
 }

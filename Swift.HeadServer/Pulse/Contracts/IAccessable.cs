@@ -1,7 +1,7 @@
 namespace Swift.HeadServer.Pulse.Contracts
 {
-    public class IAcessable
+    public interface IAccessable
     {
-        
+        public bool Update();
     }
 }
